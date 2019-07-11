@@ -25,7 +25,7 @@ class Firestore {
         return this.rsf;
     }
 
-    sanitizeSnapshot(snapshot, field) {
+    sanitizeSnapshot(snapshot, fields) {
         const data = [];
 
         snapshot.forEach( value => {

@@ -15,8 +15,7 @@ const TodoInput = () => {
 
         addTodo({
             type:'ADD_TO_DO',
-            payload: {
-                id: uuid(),
+            todo: {
                 name: todo,
                 complete: false
             }

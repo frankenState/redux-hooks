@@ -1,4 +1,7 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import todosSaga from './services';
+
 import uuid from 'uuid/v4';
 
 const initialState = {
@@ -15,31 +18,29 @@ const initialState = {
     ]
 }
 
-function reducer(state, {type,payload}) {
+function reducer(state = initialState, {type,payload,todos}) {
     switch(type){
-        case 'ADD_TO_DO':
+        case 'SET_TO_DOS':
             return {
                 ...state,
-                todos: [...state.todos, payload]
-            };
-        case 'TOGGLE_TO_DO':
-            return {
-                ...state,
-                todos: state.todos.map( todo => (todo.id === payload) ? {...todo, complete: !todo.complete} : todo)
-            };
-        case 'DELETE_TO_DO':
-            return {
-                ...state,
-                todos: state.todos.filter(todo => todo.id !== payload)
-            };
+                todos: [...todos],
+            }
         default: return state;        
     }
 }
 
 
+const sagaMiddleware = createSagaMiddleware();
 
-export const store = createStore(
+const store = createStore(
     reducer,
-    initialState,
-    window.__REDUX_DEVTOOLS_EXTENSION__() && window.__REDUX_DEVTOOLS_EXTENSION__()
+    compose(
+        applyMiddleware(
+            sagaMiddleware
+        ),window.__REDUX_DEVTOOLS_EXTENSION__() && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
 );
+
+sagaMiddleware.run(todosSaga);
+
+export default store;
