@@ -36,23 +36,7 @@ function reducer(state, {type,payload}) {
     }
 }
 
-//-------------- ACTIONS ---------------//
-export const addTodoAction = (todo) => ({
-    type: 'ADD_TO_DO',
-    payload: todo
-});
 
-export const toggleTodoAction = todoId => ({
-    type: 'TOGGLE_TO_DO',
-    payload: todoId
-});
-
-export const deleteTodoAction = todoId => ({
-    type: 'DELETE_TO_DO',
-    payload: todoId
-});
-
-//------------ END_ACTIONS --------------//
 
 export const store = createStore(
     reducer,
